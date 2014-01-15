@@ -44,16 +44,16 @@
   (map #(get % "data") (get-in subreddit-data ["data" "children"])))
 
 (defn get-top-subreddit-data
-  ([subreddit]
-     (get-subreddit-data-chunk subreddit "top" "month"))
-  ([subreddit chunkcount]
+  ([subreddit timeperiod]
+     (get-subreddit-data-chunk subreddit "top" timeperiod))
+  ([subreddit chunkcount timeperiod]
      (loop
-         [acc (get-posts (get-subreddit-data-chunk subreddit "top" "month"))
+         [acc (get-posts (get-subreddit-data-chunk subreddit "top" timeperiod))
           after (get (last acc) "name")
           count 1]
        (if (>= count chunkcount)
          acc
-         (let [next (concat acc (get-posts (get-subreddit-data-chunk subreddit "top" "month" after)))]
+         (let [next (concat acc (get-posts (get-subreddit-data-chunk subreddit "top" timeperiod after)))]
            (recur next
                   (get (last next) "name")
                   (inc count)))))))
@@ -95,9 +95,9 @@
        (map (fn [[hr min]] (+ (* (Integer. hr) 60) (Integer. min))))))
 
 (defn get-most-common-post-times-in-MAM
-  [subreddit]
+  [subreddit timeperiod]
   (into []  (->
-             (get-top-subreddit-data subreddit 10)
+             (get-top-subreddit-data subreddit 10 timeperiod)
              filter-by-upvotes
              pretty-compress
              get-times
