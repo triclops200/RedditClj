@@ -1,0 +1,15 @@
+/target
+/classes
+/checkouts
+pom.xml
+pom.xml.asc
+*.jar
+*.class
+/.lein-*
+/.nrepl-port
+<<<<<<< HEAD
+=======
+*#*
+*~*
+*.clj.*
+>>>>>>> 66fa7b28b4494810aec1dc81ca3a06cea55b398c
